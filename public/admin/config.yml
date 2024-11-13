@@ -1,10 +1,16 @@
+local_backend: true
+media_folder: src/content/images
+public_folder: src/content/images
+
 backend:
   name: git-gateway
   repo: username/reponame
   branch: main
-local_backend: true
-media_folder: src/content/images
-public_folder: src/content/images
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "_"
 
 collections:
   - name: "posts"

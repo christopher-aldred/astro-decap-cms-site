@@ -1,0 +1,54 @@
+---
+import "@assets/styles/global.css";
+import PageLayout from "@layouts/PageLayout.astro";
+import PostPreview from "@components/PostPreview.astro";
+
+export async function getStaticPaths() {
+	let posts = await Astro.glob(`../../content/posts/*.md`);
+	const tags = posts.reduce((allTags, post) => {
+		const postTags = post.frontmatter.tags;
+		if (postTags) {
+			postTags.forEach((tag) => {
+				if (!allTags[tag]) {
+					allTags[tag] = [];
+				}
+				allTags[tag].push(post);
+			});
+		}
+		return allTags;
+	}, {});
+
+	return Object.keys(tags).map((t) => {
+		return {
+			params: { tag: t },
+			props: { tag: tags[t] },
+		};
+	});
+}
+
+const { tag } = Astro.props;
+const { tag: currentTag } = Astro.params;
+
+let sortedPosts = tag.sort(
+	(a, b) => new Date(b.frontmatter.added).valueOf() - new Date(a.frontmatter.added).valueOf(),
+);
+---
+
+<PageLayout>
+	<h2 class="text-center text-xl text-neutral-500">Posts tagged with "{currentTag}"</h2>
+	<br />
+	{
+		sortedPosts.map(({ file, frontmatter: { title, description, date, tags } }) => {
+			const urlWorkaround = file.split("/").pop()?.split(".")[0];
+			return (
+				<PostPreview
+					url={urlWorkaround}
+					title={title}
+					description={description}
+					date={date}
+					tags={tags}
+				/>
+			);
+		})
+	}
+</PageLayout>
