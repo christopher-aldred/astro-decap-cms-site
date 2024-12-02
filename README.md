@@ -9,7 +9,7 @@ A basic CMS site with a minimal theme requiring no coding knowledge. All pages a
 - 🗒️ Write content in markdown (also supports html)
 - 🌓 Light & dark theme
 - 💯 Posts pagination
-- 🔖 View posts by tag (Coming soon)
+- 🔖 View posts by tag
 - 🔎 Search posts (Coming soon)
 
 ## Getting Started
